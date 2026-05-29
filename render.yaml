@@ -1,0 +1,20 @@
+services:
+  # ── Single-service: Node.js serves API + client static build ────────────────
+  - type: web
+    name: watch-party
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false              # Set manually — Neon Postgres connection string
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        # Same origin in single-service mode — set to your Render URL
+        # e.g. https://watch-party-xxxx.onrender.com
+        sync: false
+      - key: PORT
+        value: 4000
