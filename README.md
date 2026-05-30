@@ -9,7 +9,30 @@ The application is fully functional both locally and in production. It utilizes 
 
 ---
 
-### 2. Setup and Run Instructions
+### 2. Usage Instructions
+
+**1. Create a Room (Host)**
+- Open the application in your browser.
+- Enter your name under "Create a room" and click **+ Create Room**.
+- You will be assigned the **Host** role.
+- Copy the 6-character room code from the top bar (or click **📋 Copy link**) and share it with your friends.
+- As the Host, you have full control over the video (play, pause, seek). The playback state will automatically synchronize for everyone else in the room.
+- You can manage participants from the right sidebar, including making them Moderators, transferring the Host role, or removing them from the room.
+
+**2. Join a Room (Participant)**
+- Open the application in your browser.
+- Enter your name and the 6-character room code shared by the host under "Join a room".
+- Click **Join Room →**.
+- You will join as a **Participant**. You can watch the synchronized video and chat with others, but you cannot control the video playback.
+
+**3. Room Features**
+- **Video Sync:** The YouTube player automatically stays in sync with the Host and Moderators.
+- **Chat:** Use the Chat tab on the right sidebar to communicate with others in the room in real-time.
+- **Participants List:** View everyone currently in the room and their roles in the Participants tab.
+
+---
+
+### 3. Setup and Run Instructions
 
 **Prerequisites:**
 - Node.js 18+
@@ -46,7 +69,7 @@ npm run dev
 
 ---
 
-### 3. Architecture Overview (WebSocket Integration)
+### 4. Architecture Overview (WebSocket Integration)
 
 The application utilizes a **hybrid architecture** combining REST for static room creation and WebSockets (`Socket.IO`) for real-time video synchronization.
 
@@ -60,7 +83,7 @@ Participants are restricted to a strict **view-only** mode using CSS `pointer-ev
 
 ---
 
-### 4. Code Walkthrough Readiness (Technologies & Logic)
+### 5. Code Walkthrough Readiness (Technologies & Logic)
 
 **Tech Stack:**
 - **Frontend:** React + TypeScript + Vite. Uses the `YouTube IFrame API` to render and programmatically control the video player.
