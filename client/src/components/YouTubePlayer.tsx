@@ -44,13 +44,15 @@ export default function YouTubePlayer() {
 
     const currentVideoId = player.getVideoData?.()?.video_id;
     if (vs.videoId !== currentVideoId) {
-      player.loadVideoById({ videoId: vs.videoId, startSeconds: vs.currentTime });
-      if (!vs.playing) {
-        setTimeout(() => {
-          player.pauseVideo();
-          isSyncing.current = false;
-        }, 500);
-        return;
+      // New video: use loadVideoById (auto-plays) when playing,
+      // cueVideoById (thumbnail only, no auto-play) when paused.
+      // This avoids the old bug where loadVideoById auto-played and then
+      // a fragile 500ms setTimeout tried to pause it, causing cascading
+      // sync events that swallowed subsequent play attempts.
+      if (vs.playing) {
+        player.loadVideoById({ videoId: vs.videoId, startSeconds: vs.currentTime });
+      } else {
+        player.cueVideoById({ videoId: vs.videoId, startSeconds: vs.currentTime });
       }
     } else {
       const currentTime = player.getCurrentTime?.() ?? 0;
@@ -60,7 +62,8 @@ export default function YouTubePlayer() {
       vs.playing ? player.playVideo() : player.pauseVideo();
     }
 
-    setTimeout(() => { isSyncing.current = false; }, 300);
+    // Single exit path — isSyncing is always cleared after YouTube settles.
+    setTimeout(() => { isSyncing.current = false; }, 500);
   }, []);
 
   useEffect(() => {

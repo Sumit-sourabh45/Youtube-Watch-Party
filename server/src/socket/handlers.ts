@@ -230,7 +230,7 @@ export function registerSocketHandlers(io: Server): void {
       const actor = room?.getBySocketId(socket.id);
       if (!room || !actor?.canControl()) return;
 
-      room.setState({ videoId, playing: false, currentTime: 0 });
+      room.setState({ videoId, playing: true, currentTime: 0 });
 
       io.to(roomCode).emit('sync_state', {
         ...room.videoState,
